@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: geojunk
-      POSTGRES_PASSWORD: geojunk_password
+      POSTGRES_PASSWORD: crazydelicious
       POSTGRES_DB: geojunkdb
     ports:
       - "5432:5432"
