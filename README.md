@@ -189,6 +189,21 @@ Responses are shaped as `{ "success": true, "data": ... }` or `{ "success": fals
   }
   ```
 - `GET /api/v1/specimens/{specimenId}` — fetch one specimen (includes its photos).
+- `GET /api/v1/photos?tripId=...&localityId=...` — list photos.
+- `POST /api/v1/photos` — create/import a photo. Body:
+  ```json
+  {
+    "tripId": "trip-id",
+    "localityId": "locality-id",
+    "source": "google",
+    "googleMediaItemId": "APw...",
+    "imageUrl": "https://photos.google.com/...",
+    "takenAt": "2025-10-16T14:30:00Z",
+    "gpsLat": 37.302765,
+    "gpsLon": -80.485212,
+    "caption": "Outcrop overview"
+  }
+  ```
 
 Example cURL:
 
