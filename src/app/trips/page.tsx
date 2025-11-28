@@ -106,13 +106,11 @@ export default async function TripsPage() {
         ) : (
           <ul className="space-y-2">
             {trips.map((trip) => (
-              <li
-                key={trip.id}
-                className="border border-slate-700 rounded-lg px-3 py-2 text-sm flex flex-col gap-1"
-              >
-                <div className="font-medium text-slate-100">
+              <li key={trip.id} className="border border-slate-700 rounded-lg px-3 py-2 text-sm flex flex-col gap-1">
+                <a href={`/trips/${trip.id}`} className="font-medium text-emerald-400 hover:underline">
                   {trip.name}
-                </div>
+                </a>
+
                 <div className="text-slate-400">
                   {new Date(trip.date).toLocaleDateString()}{" "}
                   {trip.notes && <span>• {trip.notes}</span>}
