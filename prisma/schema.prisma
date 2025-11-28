@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  name              String?
+  googleUserId      String   @unique
+  googleRefreshToken String
+  defaultSheetId    String?
+  defaultAlbumId    String?
+  trips             Trip[]
+  localities        Locality[]
+  specimens         Specimen[]
+  photos            Photo[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Trip {
+  id        String     @id @default(cuid())
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String
+  name      String
+  date      DateTime
+  notes     String?
+  localities Locality[]
+  specimens  Specimen[]
+  photos     Photo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Locality {
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  trip         Trip       @relation(fields: [tripId], references: [id])
+  tripId       String
+  name         String
+  latitude     Float
+  longitude    Float
+  nearestTown  String?
+  stateProvince String?
+  country      String?
+  accessNotes  String?
+  formation    String?
+  stratUnit    String?
+  age          String?
+  specimens    Specimen[]
+  photos       Photo[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Specimen {
+  id              String   @id
+  user            User     @relation(fields: [userId], references: [id])
+  userId          String
+  trip            Trip     @relation(fields: [tripId], references: [id])
+  tripId          String
+  locality        Locality @relation(fields: [localityId], references: [id])
+  localityId      String
+  collectionDate  DateTime
+  shortDescription String
+  category        String
+  storageLocation String?
+  lithology       String?
+  fossilGroup     String?
+  prepStatus      String?
+  keepTradeStatus String?
+  notes           String?
+  photos          Photo[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Photo {
+  id               String   @id @default(cuid())
+  user             User     @relation(fields: [userId], references: [id])
+  userId           String
+  specimen         Specimen? @relation(fields: [specimenId], references: [id])
+  specimenId       String?
+  trip             Trip     @relation(fields: [tripId], references: [id])
+  tripId           String
+  locality         Locality @relation(fields: [localityId], references: [id])
+  localityId       String
+  googleMediaItemId String
+  googlePhotosUrl   String
+  takenAt          DateTime?
+  gpsLat           Float?
+  gpsLon           Float?
+  caption          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
