@@ -109,7 +109,7 @@ Features include:
 | Database           | **PostgreSQL** (local via WSL2 or Docker; production TBD)        |
 | Cloud Integrations | **Google Photos API**, **Google Sheets API**, **Google Maps JS** |
 | Auth               | **Google OAuth** (planned)                                       |
-| UI                 | Vanilla Tailwind-like classes (using Next.js built-in styling)   |
+| UI                 | Tailwind CSS                                                     |
 
 ---
 
@@ -132,6 +132,41 @@ src/
     prisma.ts                # Prisma client
   prisma/
     schema.prisma            # Data model
+```
+
+---
+
+# 🌐 API (v1)
+
+Versioned, HTTP-friendly endpoints for external apps live under `/api/v1`. Auth will arrive later; for now you can scope data per-user by sending an `X-User-Id` header (defaults to `demo-user`).
+
+Responses are shaped as `{ "success": true, "data": ... }` or `{ "success": false, "error": { code, message, details? } }`.
+
+- `GET /api/v1/trips` — list trips for the user.
+- `POST /api/v1/trips` — create a trip. Body:
+  ```json
+  { "name": "Sinking Creek, VA", "date": "2025-10-16", "notes": "Fall field day" }
+  ```
+- `GET /api/v1/trips/{tripId}` — fetch a trip with its localities.
+- `GET /api/v1/trips/{tripId}/localities` — list localities for a trip.
+- `POST /api/v1/trips/{tripId}/localities` — create a locality. Body:
+  ```json
+  {
+    "name": "Sinking Creek",
+    "latitude": 37.302765,
+    "longitude": -80.485212,
+    "nearestTown": "Newport, VA",
+    "accessNotes": "Park at the playground and walk down to the creek."
+  }
+  ```
+
+Example cURL:
+
+```sh
+curl -X POST http://localhost:3000/api/v1/trips \
+  -H "Content-Type: application/json" \
+  -H "X-User-Id: demo-user" \
+  -d '{"name":"Wolf Creek with Evan","date":"2025-03-02"}'
 ```
 
 ---
