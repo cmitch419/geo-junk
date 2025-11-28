@@ -102,6 +102,15 @@ export default async function TripDetailPage({
               name="nearestTown"
               className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-sm"
             />
+            <div className="mt-1">
+              <a
+                href="/localities"
+                target="_blank"
+                className="text-xs text-emerald-400 hover:underline"
+              >
+                Add or edit a reusable locality
+              </a>
+            </div>
           </div>
 
           <div>

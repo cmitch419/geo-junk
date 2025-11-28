@@ -12,7 +12,12 @@ export async function GET(
 
     const trip = await prisma.trip.findFirst({
       where: { id: params.tripId, userId },
-      include: { localities: true }
+      include: {
+        tripLocalities: {
+          include: { locality: true },
+          orderBy: { createdAt: "desc" }
+        }
+      }
     });
 
     if (!trip) {
@@ -23,7 +28,10 @@ export async function GET(
       });
     }
 
-    return ok(trip);
+    return ok({
+      ...trip,
+      localities: trip.tripLocalities.map((tl) => tl.locality)
+    });
   } catch (err) {
     console.error("GET /api/v1/trips/[tripId] error:", err);
     return error({

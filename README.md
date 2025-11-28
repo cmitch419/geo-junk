@@ -159,6 +159,36 @@ Responses are shaped as `{ "success": true, "data": ... }` or `{ "success": fals
     "accessNotes": "Park at the playground and walk down to the creek."
   }
   ```
+- `GET /api/v1/localities` — list all localities for the user.
+- `POST /api/v1/localities` — create a reusable locality. Body:
+  ```json
+  {
+    "name": "Sinking Creek",
+    "latitude": 37.302765,
+    "longitude": -80.485212,
+    "nearestTown": "Newport, VA",
+    "accessNotes": "Park at the playground and walk down to the creek.",
+    "formation": "Sinking Creek Limestone",
+    "stratUnit": "Upper Mississippian",
+    "age": "Carboniferous",
+    "stateProvince": "VA",
+    "country": "USA"
+  }
+  ```
+- `GET /api/v1/specimens?tripId=...&localityId=...` — list specimens (filters optional).
+- `POST /api/v1/specimens` — create a specimen. Body:
+  ```json
+  {
+    "tripId": "trip-id",
+    "localityId": "locality-id",
+    "collectionDate": "2025-10-16",
+    "shortDescription": "Brachiopod hash plate",
+    "category": "fossil",
+    "storageLocation": "Cabinet A3",
+    "notes": "Weathered shale slab"
+  }
+  ```
+- `GET /api/v1/specimens/{specimenId}` — fetch one specimen (includes its photos).
 
 Example cURL:
 
